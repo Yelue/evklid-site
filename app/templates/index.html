@@ -1,0 +1,83 @@
+{% extends 'base.html'%}
+{% block head %}
+	<title>Evklid</title>
+	<script type="text/javascript" src="{{url_for('static',filename = 'scripts.js')}}"></script>
+{% endblock %}
+
+{% block body %}
+	<form method='post' action="/start_search">
+		<br>Choose year
+		<select name="year" id="select_year" onchange="document.getElementById('year_choice').value = this.value;">
+			<option value = ''>Choose year</option>
+			<option value = '2017'>2017</option>
+			<option value = '2018'>2018</option>
+			<option value = '2019'>2019</option>
+			
+		</select>
+		
+
+
+		<br>Choose specialize	
+		<select name="spec">
+			<option value = ''>Choose spec</option>
+			{% for spec in specs %}
+			<option value = "{{spec.special_name}}">{{spec.special_id}}-{{spec.special_name}}</option>
+			{% endfor %}
+		</select>
+		<br>
+		<br>Choose osnova	
+		<select name="osnova">
+			<option value = ''>Choose osnova</option>
+			
+
+
+
+			<option value = "Бакалавр (на основі:Молодший спеціаліст)">Бакалавр (на основі:Молодший спеціаліст)</option>
+			<option value = "Бакалавр (на основі:Повна загальна середня освіта)">Бакалавр (на основі:Повна загальна середня освіта)</option>
+			<option value = "Магістр (на основі:Бакалавр)">Магістр (на основі:Бакалавр)</option>
+
+		</select>
+		<br>
+		<br>Choose region
+		<select name="region" id="select_region" onchange = "send_region(this)">
+			<option value = ''>Choose region</option>
+			{% for region in regions %}
+			<option value = "{{region.region_id}}">{{region.region_name}}</option>
+			{% endfor %}
+		</select>
+
+		<br>Choose univer
+		<select name="univer" id='univer' onchange="document.getElementById('univer_choice').value = this.value;" >
+			
+		</select>
+		
+		<button type='submit' onclick="save_data_div()">Start search</button>
+	</form>
+	<div id="year_choice" value=""></div>
+	<div id="region_choice" value=""></div>
+	<div id="univer_choice" value=""></div>
+	<table>
+		<thead>
+			<tr id='basket_keys'>
+				{% for name_head in names_head_table_result%}
+
+				<td>{{name_head}}</td>
+				{% endfor %}
+			</tr>
+		</thead>
+		<tbody>
+			<div id="result_req"></div>
+			{% for result in results %}
+				<tr id="row_{{ loop.index }}">
+
+				{% for key in names_head_table_result %}
+					<td>{{result[key]}}</td>
+				{% endfor%}
+					<td><button id="{{ loop.index }}" onclick="send_to_basket(this)" >add_to_basket</button></td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends 'base.html'%}
+{% block body %}
+
+	<h1>Register</h1>
+	<form method="POST" action="">
+		 <p>
+            {{ form.email.label }}<br>
+            {{ form.email(size=32) }}<br>
+            {% for error in form.email.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+		 <p>
+            {{ form.password.label }}<br>
+            {{ form.password(size=32) }}<br>
+            {% for error in form.password.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+				 <p>
+            {{ form.confirm.label }}<br>
+            {{ form.confirm(size=32) }}<br>
+            {% for error in form.confirm.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+		 <p>
+            {{ form.first_name.label }}<br>
+            {{ form.first_name(size=32) }}<br>
+            {% for error in form.first_name.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+		<p>
+            {{ form.second_name.label }}<br>
+            {{ form.second_name(size=32) }}<br>
+            {% for error in form.second_name.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+    		 <p>
+    		 'dd-mm-YYYY'
+            {{ form.birthday.label }}<br>
+            {{ form.birthday(size=32) }}<br>
+            {% for error in form.birthday.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+		<input type="submit" value="Register">
+	</form>
+
+{% endblock  %}

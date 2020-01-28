@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+
+{% block body%}
+
+<p><h2>Make recommendation list</h2></p>
+	<form method='post' action='recommend'>	
+		<label >Choose region:</label>
+		<select name="region">
+			{% for region in regions %}
+				<option value = "{{region.region_id}}">{{region.region_name}}</option>
+				{% endfor %}
+		</select>
+		<br>
+		<label>Choose specialty:</label>
+		<select name="spec">
+				<option value = ''>Choose spec</option>
+				{% for spec in specs %}
+				<option value = "{{spec.special_name}}">{{spec.special_id}}-{{spec.special_name}}</option>
+				{% endfor %}
+			</select>
+
+		<br>
+		<select name="osnova">
+				<option value = ''>Choose osnova</option>
+				
+
+
+
+				<option value = "Бакалавр (на основі:Молодший спеціаліст)">Бакалавр (на основі:Молодший спеціаліст)</option>
+				<option value = "Бакалавр (на основі:Повна загальна середня освіта)">Бакалавр (на основі:Повна загальна середня освіта)</option>
+				<option value = "Магістр (на основі:Бакалавр)">Магістр (на основі:Бакалавр)</option>
+
+			</select>
+		<input type="submit" value="Find" >
+	
+	</form>
+
+	<table border="1">
+		<thead>
+			<tr id="basket_keys">
+				{% for key in keys_recom%}
+
+				<td>{{key}}</td>
+				{% endfor %}
+			</tr>
+		</thead>
+		<tbody>
+			{% for row in rows_recom %}
+				<tr id="row_{{ loop.index }}">
+					{% set row_id = loop.index %}
+					{% for key in keys_recom %}
+						<td id='row_{{row_id}}_td_{{ loop.index }}'>
+							{{row[key]}}
+						</td>
+					{% endfor %}
+					<td><button id="{{ row_id }}" onclick="send_to_basket(this)" >add_to_basket</button></td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+<p><h2>Your choices</h2></p>	
+	<table border="1">
+		<thead>
+			<tr>
+				{% for key in keys_basket%}
+
+				<td>{{key}}</td>
+				{% endfor %}
+			</tr>
+		</thead>
+		<tbody>
+			{% for row in rows_basket %}
+				<tr id="row_{{ loop.index }}">
+					{% set row_id = loop.index %}
+					{% for key in keys_basket %}
+						<td id='row_{{row_id}}_td_{{key}}'>
+							{{row[key]}}
+						</td>
+					{% endfor %}
+					<td><input class="bttn_delete_choice" id="{{ loop.index }}" onclick="delete_choice(this)" type="button" value="delete"></td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+<p><h2>Your scores</h2></p>
+	<h3>Output</h3>
+		<div>
+			<table border="1">
+				<thead>
+					<tr>
+						<td>Subject_name</td>
+						<td>Subject_score</td>
+					</tr>
+				</thead>
+				<tbody id='tbody-otput-score'>
+					{% for subject in subjects_user %}
+						<tr>
+							<td id ="name_{{ loop.index }}">
+								{{subject['subject_name']}}
+							</td>
+
+							<td id ="score_{{ loop.index }}">
+								{{subject['subject_score']}}
+							</td>
+							<td><input class="bttn_delete_score" id="{{ loop.index }}" onclick="delete_score(this)" type="button" value="delete"></td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>		
+		</div>	
+	<h3>Input</h3>
+		<div>
+			<p>
+				<label>subject_name</label>
+					<select id="subject_name">
+						{% for subject_name in subjects_name %}
+							<option value="{{subject_name}}">{{subject_name}}</option>
+						{% endfor %}	
+					</select>
+				
+			</p>
+			<p>
+				<label>subject_score</label>
+				<p><input type="text" id="subject_score"></p>
+			</p>
+			<input type="button" value="save_into_table" onclick="save_score()">
+		</div>
+{% endblock %}
